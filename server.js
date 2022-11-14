@@ -23,6 +23,7 @@ const categoriesRoutes = require("./routes/categories");
 const productsRoutes = require("./routes/products");
 const usersRoutes = require("./routes/users");
 const ordersRoutes = require("./routes/orders");
+const authJwt = require("./helpers/jwt");
 
 // app.get("/", (req, res) => {
 //   res.send("Hello World");
@@ -32,6 +33,17 @@ app.use(`${api}/categories`, categoriesRoutes);
 app.use(`${api}/products`, productsRoutes);
 app.use(`${api}/users`, usersRoutes);
 app.use(`${api}/orders`, ordersRoutes);
+app.use(authJwt());
+
+//error handling
+app.use((err, req, res, next) => {
+  if (err) {
+    res.status(500).json({
+      success: false,
+      message: err,
+    });
+  }
+});
 
 // connect to mongodb
 mongoose
