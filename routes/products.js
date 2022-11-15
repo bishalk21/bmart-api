@@ -78,6 +78,7 @@ router.post(`/`, async (req, res) => {
     name: req.body.name,
     description: req.body.description,
     richDescription: req.body.richDescription,
+    // image: filename, "http://localhost:3000/public/upload/image-2345"
     image: req.body.image,
     images: req.body.images,
     brand: req.body.brand,
