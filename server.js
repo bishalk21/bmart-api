@@ -1,7 +1,7 @@
 require("dotenv/config");
 const express = require("express");
 const app = express();
-// const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
@@ -14,7 +14,7 @@ app.options("*", cors());
 const PORT = 8000;
 
 // middleware to parse
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("tiny"));
 
@@ -24,6 +24,7 @@ const productsRoutes = require("./routes/products");
 const usersRoutes = require("./routes/users");
 const ordersRoutes = require("./routes/orders");
 const authJwt = require("./helpers/jwt");
+const errorHandler = require("./helpers/errorHandler");
 
 // app.get("/", (req, res) => {
 //   res.send("Hello World");
@@ -34,13 +35,14 @@ app.use(`${api}/products`, productsRoutes);
 app.use(`${api}/users`, usersRoutes);
 app.use(`${api}/orders`, ordersRoutes);
 app.use(authJwt());
+app.use(errorHandler);
 
 //error handling
 app.use((err, req, res, next) => {
   if (err) {
     res.status(500).json({
-      success: false,
-      message: err,
+      //   success: false,
+      message: "error in the server",
     });
   }
 });
